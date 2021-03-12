@@ -1,0 +1,10 @@
+pandas
+numpy
+pyodbc
+sqlalchemy
+requests
+jupyter
+matplotlib
+black
+fuzzywuzzy
+psycopg2

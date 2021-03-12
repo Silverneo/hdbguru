@@ -1,0 +1,30 @@
+TBL_HDB_RESALE_PRICE:
+  NAME: resale-flat-prices
+  TYPE: data.gov.sg
+  RESOURCE_ID: 42ff9cfe-abe5-4b54-beda-c88f9bb438ee
+  HIST_RAW_DIR: data/_raw/resale-flat-prices
+  HIST_PROC_DUMP: data/_processed/TBL_HDB_RESALE_PRICE.csv.gzip
+  TABLE: TBL_HDB_RESALE_PRICE
+
+TBL_HDB_PROP_INFO:
+  NAME: hdb-property-information
+  TYPE: data.gov.sg
+  RESOURCE_ID: 482bfa14-2977-4035-9c61-c85f871daf4e
+  HIST_RAW_DIR: data/_raw/hdb-property-information
+  HIST_PROC_DUMP: data/_processed/TBL_HDB_PROP_INFO.csv.gzip
+  TABLE: TBL_HDB_PROP_INFO
+
+TBL_HDB_ADDR_INFO:
+  NAME: hdb-onemap-address-information
+  TYPE: onemap.sg
+  HIST_RAW_DIR: data/_raw/onemap-hdb-addresses
+  HIST_PROC_DUMP: data/_processed/TBL_HDB_ADDR_INFO.csv.gzip
+  TABLE: TBL_HDB_ADDR_INFO
+
+TBL_SCHOOL_INFO:
+  NAME: school-directory-and-information
+  TYPE: onemap.sg
+  HIST_RAW_DIR: data/_raw/school-directory-and-information
+  HIST_PROC_DUMP: data/_processed/TBL_SCHOOL_INFO.csv.gzip
+  TABLE: TBL_SCHOOL_INFO
+
