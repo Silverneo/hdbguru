@@ -6,6 +6,26 @@ import json
 import re
 import pandas as pd
 
+ONEMAP_AUTH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcyMzYsInVzZXJfaWQiOjcyMzYsImVtYWlsIjoiY2h1bm1lbmcxOTkxQGdtYWlsLmNvbSIsImZvcmV2ZXIiOmZhbHNlLCJpc3MiOiJodHRwOlwvXC9vbTIuZGZlLm9uZW1hcC5zZ1wvYXBpXC92MlwvdXNlclwvc2Vzc2lvbiIsImlhdCI6MTYxNTY1MDcwNCwiZXhwIjoxNjE2MDgyNzA0LCJuYmYiOjE2MTU2NTA3MDQsImp0aSI6IjhlMGQzNmE1ZTc1YjBlYTY5OTE0NDAzOWI4MjM1NzAxIn0.8YbkzmWVmENQPHJoh2O7GkRhE7fTJ4GgehprH9kvtr0"
+
+
+def reverse_geocode(lat, long, buffer, addr_type):
+
+    results = []
+
+    response = requests.get(
+        f"https://developers.onemap.sg/privateapi/commonsvc/revgeocode?"
+        f"location={lat},{long}"
+        f"&buffer={buffer}"
+        f"&addressType={addr_type}"
+        f"&token={ONEMAP_AUTH_TOKEN}"
+    ).json()
+
+    if "GeocodeInfo" in response:
+        return response["GeocodeInfo"]
+    else:
+        return None
+
 
 def search_value(keyword: str, geometry: bool = True, detail: bool = True):
 
@@ -30,10 +50,10 @@ def search_value(keyword: str, geometry: bool = True, detail: bool = True):
             print(f"Fetching {keyword:40s} failed. Retrying in 2 sec ...")
             time.sleep(2)
             continue
-        except: # other exceptions, return empty value
+        except:  # other exceptions, return empty value
             break
 
-        if response['found'] == 0:
+        if response["found"] == 0:
             break
 
         for res in response["results"]:
@@ -86,7 +106,7 @@ def query_api(keywords, file_name, n=5):
 
         res = pool.map(search_value, sub_list)
 
-        res = [x for x in res if x] # remove empty result
+        res = [x for x in res if x]  # remove empty result
 
         jstr = json.dumps([y for x in res for y in x], indent=2, sort_keys=True)
 
@@ -95,6 +115,7 @@ def query_api(keywords, file_name, n=5):
 
         i = i + 1
         time.sleep(5)
+
 
 def query_onemap_api(keywords, n=5):
     pool = Pool(processes=n)
@@ -109,7 +130,7 @@ def query_onemap_api(keywords, n=5):
 
         res = pool.map(search_value, sub_list)
 
-        res = [x for x in res if x] # remove empty result
+        res = [x for x in res if x]  # remove empty result
 
         jstr = json.dumps([y for x in res for y in x], indent=2, sort_keys=True)
 
@@ -119,8 +140,6 @@ def query_onemap_api(keywords, n=5):
         time.sleep(5)
 
     return jres
-
-
 
 
 def search_hdb_address():
@@ -143,6 +162,7 @@ def search_school_address():
     # all_school_addresses = (df["ADDRESS"] + " " + df["POSTAL_CODE"]).unique().tolist()
     all_school_addresses = (df["ADDRESS"]).unique().tolist()
     query_api(all_school_addresses, "school_building_info")
+
 
 if __name__ == "__main__":
 
