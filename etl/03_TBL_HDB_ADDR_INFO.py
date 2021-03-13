@@ -1,9 +1,9 @@
+import pathlib
 import pandas as pd
 import numpy as np
 from pandas.core.frame import DataFrame
-from utils import *
+from .utils import *
 
-import pathlib
 
 def load_data(data_dir: pathlib.Path):
 
