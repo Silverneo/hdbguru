@@ -1,0 +1,2 @@
+ALTER TABLE api.tbl_hdb_addr_info DROP COLUMN IF EXISTS HDB_ID;
+
