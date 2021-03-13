@@ -1,9 +1,10 @@
+import pathlib
 import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 
-from utils import *
-from one_map_api import query_onemap_api
+from .utils import *
+from .one_map_api import query_onemap_api
 
 
 def get_school_address_info(df):
