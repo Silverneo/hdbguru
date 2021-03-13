@@ -143,3 +143,4 @@ _backups/
 data/_*/
 
 .env
+.DS_Store

@@ -8,3 +8,5 @@ matplotlib
 black
 fuzzywuzzy
 psycopg2
+pykml
+lxml
