@@ -28,5 +28,5 @@ curl "http://localhost:31001"
 
 curl "http://localhost:31001/api/v1/get_neighbor_detail?latitude=1.3489086885502&longitude=103.876715676102&topn=2"
 
-curl "http://localhost:31001/api/v1/getnearbyhdb?where=531008&topn=20"
+curl "http://localhost:31001/api/v1/get_nearby_hdb?where=531008&topn=20"
 ```
