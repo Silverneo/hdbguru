@@ -96,7 +96,10 @@ FROM
         ST_DistanceSphere(
           ST_SetSRID(ST_Point({}, {}), 4326),
           geom
-        ) as distance_to_target
+        ) as distance_to_target,
+        postal_code,
+        latitude,
+        longitude
     FROM api.tbl_hdb_addr_info 
     ORDER BY distance_to_target
     LIMIT {}
@@ -112,10 +115,12 @@ INNER JOIN
     SELECT 
         hdb_id,
         CAST(AVG(price_psf) AS INT) AS avg_price_psf,
-        lease_commence_date
+        lease_commence_date,
+        flat_type,
+        CAST(AVG(floor_area_sqm) AS INT) AS floor_area_sqm
     FROM api.tbl_hdb_resale_price
     WHERE month > date('{}-01-01')
-    GROUP BY hdb_id,lease_commence_date
+    GROUP BY hdb_id,lease_commence_date, flat_type
 ) AS hdb_price_tbl
 ON hdb_addr_tbl.hdb_id = hdb_price_tbl.hdb_id
 ORDER BY hdb_addr_tbl.distance_to_target

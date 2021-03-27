@@ -65,6 +65,10 @@ def get_nearby_hdb():
 	df = df.loc[:,~df.columns.duplicated()]
 
 	df['remain_lease'] = df['lease_commence_date'].apply(lambda x: 99-(cur_year-x))
+	df['floor_area_sqft'] = df['floor_area_sqm'] * 10.7639
+	df['avg_resale_price'] = df.apply(lambda row: row['avg_price_psf'] * row['floor_area_sqft'], axis=1)
+
+	df = df.drop_duplicates(subset=['hdb_id'])
 
 	# compute score base on user matrix
 	df['score'] = df.apply(lambda row: compute_score(user_matrix_norm, row), axis=1)
