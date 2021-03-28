@@ -3,7 +3,7 @@ version: "3.7"
 services:
   db:
     build: ./db
-    image: postgis/postgis:13-master
+    image: cs5224-hdbguru/postgis
     command: >
       -c ssl=on
       -c ssl_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem

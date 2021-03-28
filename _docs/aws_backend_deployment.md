@@ -27,22 +27,11 @@ docker-compose version # verify to see version info
 
 ### Backend
 
-#### Database Migrate CLI
-
-```
-cd /tmp &&\
-sudo curl -O -L https://github.com/golang-migrate/migrate/releases/latest/download/migrate.linux-amd64.tar.gz &&\
-tar -zxvf migrate.linux-amd64.tar.gz &&\
-mv migrate.linux-amd64 /usr/local/bin/migrate
-```
-
 #### Copy data over to the folder
 
 #### Build Images and Spin Up the Service
 ```
-sudo chmod +x build.sh
-./build.sh
-docker-compose up -d
-migrate -path data/migrations -database postgres://hgadmin:pwd123456@127.0.0.1:5432/hdbguru goto 7
+docker-compose build && docker-compose up -d
+docker exec -it hdbguru_db_1 bash ./run_migrate.sh up
 curl "http://localhost:31001"
 ```
