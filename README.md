@@ -11,15 +11,16 @@
 
 3. Run below commands to bring up the db locally with data
 
-> Note: For mac/linux user, can go to the release page of [golang-migrate](https://github.com/golang-migrate/migrate/releases) and download the right executables
-
 ```
 # start postgis db and search server
-docker-compose up -d
+docker-compose build && docker-compose up -d
 
 # run required migration sql scripts
-bin\migrate -path data/migrations -database postgres://[uid]:[pwd]@127.0.0.1:5432/hdbguru goto 7
+docker exec -it hdbguru_db_1 bash ./run_migrate.sh up
 ```
+
+You can adjust database stage by running above command with up / down / goto [x]
+
 For details on how to use migrate, refer to their [cli guide](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
 
 ### Test

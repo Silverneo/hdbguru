@@ -11,6 +11,7 @@
 ### Docker Setup
 
 ```
+sudo yum update
 sudo amazon-linux-extras install docker
 sudo service docker start
 sudo usermod -a -G docker ec2-user
@@ -27,22 +28,30 @@ docker-compose version # verify to see version info
 
 ### Backend
 
-#### Database Migrate CLI
+#### Clone the github repository
 
 ```
-cd /tmp &&\
-sudo curl -O -L https://github.com/golang-migrate/migrate/releases/latest/download/migrate.linux-amd64.tar.gz &&\
-tar -zxvf migrate.linux-amd64.tar.gz &&\
-mv migrate.linux-amd64 /usr/local/bin/migrate
+sudo yum install -y git
+git clone https://github.com/Silverneo/hdbguru-data-etl.git && cd hdbguru-data-etl
 ```
 
-#### Copy data over to the folder
+#### Copy data & .env over to the folder
+```
+cd db/data && mkdir _processed && cd _processed
+wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HAWKER_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_EXTRA_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_PROP_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_RESALE_PRICE.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_MALL_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_MRT_LRT_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_SCHOOL_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_SMKT_ADDR_INFO.csv.gzip
+```
 
 #### Build Images and Spin Up the Service
 ```
-sudo chmod +x build.sh
-./build.sh
-docker-compose up -d
-migrate -path data/migrations -database postgres://hgadmin:pwd123456@127.0.0.1:5432/hdbguru goto 7
+docker-compose build && docker-compose up -d
+docker exec -it hdbguru_db_1 bash ./run_migrate.sh up
 curl "http://localhost:31001"
 ```

@@ -1,0 +1,1 @@
+migrate -path migrations -database postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@127.0.0.1:5432/hdbguru "$@"

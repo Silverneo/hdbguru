@@ -2,7 +2,8 @@ version: "3.7"
 
 services:
   db:
-    image: postgis/postgis:13-master
+    build: ./db
+    image: cs5224-hdbguru/postgis
     command: >
       -c ssl=on
       -c ssl_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
@@ -15,8 +16,9 @@ services:
       POSTGRES_PASSWORD: ${HDBGURU_DB_PASSWORD:?DB Password must be specified}
       POSTGRES_DB: ${HDBGURU_DB_NAME:?DB Name must be specified}
     volumes:
-      - "./data/_processed:/tmp/data/_processed"
+      - "./db/data/_processed:/tmp/data/_processed"
   searchserver:
+    build: ./searchserver
     image: cs5224-hdbguru/searchserver
     # command: gunicorn --bind 0.0.0.0:31001 --worker-class=gevent --workers=5 server:app
     command: python3 server.py --port=31001 --dbaddr=db:5432
