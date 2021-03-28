@@ -143,4 +143,6 @@ _backups/
 db/**/_*/
 
 .env
+*.pem
+*.ppk
 .DS_Store
