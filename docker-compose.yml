@@ -17,6 +17,7 @@ services:
     volumes:
       - "./data/_processed:/tmp/data/_processed"
   searchserver:
+    build: ./searchserver
     image: cs5224-hdbguru/searchserver
     # command: gunicorn --bind 0.0.0.0:31001 --worker-class=gevent --workers=5 server:app
     command: python3 server.py --port=31001 --dbaddr=db:5432
