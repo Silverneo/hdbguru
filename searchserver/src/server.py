@@ -13,6 +13,7 @@ from sqlalchemy import create_engine
 
 import flask
 from flask import Flask, request, jsonify, Response, redirect, url_for
+from flask_cors import CORS
 
 from utils import *
 from sql import *
@@ -27,6 +28,7 @@ if not logger.handlers:
 	logger.addHandler(file_handler)
 
 app = Flask("app")
+CORS(app)
 
 @app.route("/")
 def index():
