@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   db:
+    build: ./db
     image: postgis/postgis:13-master
     command: >
       -c ssl=on
@@ -15,7 +16,7 @@ services:
       POSTGRES_PASSWORD: ${HDBGURU_DB_PASSWORD:?DB Password must be specified}
       POSTGRES_DB: ${HDBGURU_DB_NAME:?DB Name must be specified}
     volumes:
-      - "./data/_processed:/tmp/data/_processed"
+      - "./db/data/_processed:/tmp/data/_processed"
   searchserver:
     build: ./searchserver
     image: cs5224-hdbguru/searchserver

@@ -140,7 +140,7 @@ cython_debug/
 .vscode/
 .idea/
 _backups/
-data/_*/
+db/**/_*/
 
 .env
 .DS_Store
