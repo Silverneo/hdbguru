@@ -11,6 +11,7 @@
 ### Docker Setup
 
 ```
+sudo yum update
 sudo amazon-linux-extras install docker
 sudo service docker start
 sudo usermod -a -G docker ec2-user
@@ -27,7 +28,26 @@ docker-compose version # verify to see version info
 
 ### Backend
 
-#### Copy data over to the folder
+#### Clone the github repository
+
+```
+sudo yum install -y git
+git clone https://github.com/Silverneo/hdbguru-data-etl.git && cd hdbguru-data-etl
+```
+
+#### Copy data & .env over to the folder
+```
+cd db/data && mkdir _processed && cd _processed
+wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HAWKER_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_EXTRA_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_PROP_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_HDB_RESALE_PRICE.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_MALL_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_MRT_LRT_ADDR_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_SCHOOL_INFO.csv.gzip\
+&& wget https://hdbguru-s3-processed.s3.amazonaws.com/TBL_SMKT_ADDR_INFO.csv.gzip
+```
 
 #### Build Images and Spin Up the Service
 ```
