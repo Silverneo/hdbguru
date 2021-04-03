@@ -9,7 +9,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install numpy pandas requests sqlalchemy
 RUN pip3 install psycopg2
 
-ADD ./dataserver/src /project/hdbguru/dataserver
+ADD ./src /project/hdbguru/dataserver
 
 WORKDIR /project/hdbguru/dataserver
 
