@@ -7,6 +7,7 @@
 
 1. Choose AMI Amazon Linux 2
 2. When adding security role, remember to add port 31001 which is for our api
+3. For DB please bind the private ip to **10.0.2.222**
 
 ### Docker Setup
 
@@ -27,13 +28,13 @@ docker-compose version # verify to see version info
 sudo yum install -y git
 ```
 
-### Backend
+### Deploy
 
-#### create folder hdbguru, copy .env & docker-compose.yml into it
-
-#### Pull Images and Spin Up the Service
 ```
-docker-compose up -d
-docker exec -it hdbguru_db_1 bash ./run_migrate.sh up # Update DB to latest
-curl "http://localhost:31001" # check api backend is up
+ssh [ssh_host_to_ec2]
+mkdir -p hdbguru && exit
+scp .env docker-compose.prod.yml Makefile [ssh_host_to_ec2]:~/hdbguru
+ssh [ssh_host_to_ec2]
+cd hdbguru
+make deploy-[api/db/web]
 ```
