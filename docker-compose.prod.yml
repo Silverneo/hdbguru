@@ -17,16 +17,12 @@ services:
       POSTGRES_HOSTNAME: ${HDBGURU_DB_HOSTNAME:?DB Host must be specified}
   searchserver:
     image: chunmeng1991/searchserver
-    command: python3 server.py --port=31001 --dbaddr=$POSTGRES_HOSTNAME:5432
+    command: python3 server.py --port=31001 --dbaddr=$HDBGURU_DB_HOSTNAME:5432
     expose:
       - "31001"
     ports:
       - "31001:31001"
-    environment:
-      POSTGRES_HOSTNAME: ${HDBGURU_DB_HOSTNAME:?DB Host must be specified}
   dataserver:
     build: ./dataserver
     image: chunmeng1991/dataserver
-    command: python updatedb.py --dbaddr=$POSTGRES_HOSTNAME:5432
-    environment:
-      POSTGRES_HOSTNAME: ${HDBGURU_DB_HOSTNAME:?DB Host must be specified}
+    command: python updatedb.py --dbaddr=$HDBGURU_DB_HOSTNAME:5432
