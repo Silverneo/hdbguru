@@ -22,3 +22,7 @@ deploy-api:
 deploy-web:
 	docker-compose -f docker-compose.prod.yml pull web\
 	&& docker-compose -f docker-compose.prod.yml up -d web
+
+update-db:
+	docker-compose -f docker-compose.prod.yml pull dataserver\
+	&& docker-compose -f docker-compose.prod.yml up dataserver

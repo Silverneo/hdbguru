@@ -22,3 +22,7 @@ services:
       - "31001"
     ports:
       - "31001:31001"
+  dataserver:
+    build: ./dataserver
+    image: chunmeng1991/dataserver
+    command: python3 updatedb.py --dbaddr=127.0.2.222:5432

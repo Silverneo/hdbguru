@@ -28,7 +28,7 @@ services:
       - "31001:31001"
   dataserver:
     build: ./dataserver
-    image: cs5224-hdbguru/dataserver
+    image: chunmeng1991/dataserver
     command: python3 updatedb.py --dbaddr=db:5432
     depends_on:
       - db
