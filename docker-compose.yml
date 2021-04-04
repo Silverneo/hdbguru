@@ -15,13 +15,11 @@ services:
       POSTGRES_USER: ${HDBGURU_DB_USERNAME:?DB Usename must be specified}
       POSTGRES_PASSWORD: ${HDBGURU_DB_PASSWORD:?DB Password must be specified}
       POSTGRES_DB: ${HDBGURU_DB_NAME:?DB Name must be specified}
+      POSTGRES_HOSTNAME: ${HDBGURU_DB_HOSTNAME:?DB Host must be specified}
   searchserver:
     build: ./searchserver
     image: chunmeng1991/searchserver
-    # command: gunicorn --bind 0.0.0.0:31001 --worker-class=gevent --workers=5 server:app
-    command: python3 server.py --port=31001 --dbaddr=db:5432
-    depends_on:
-      - db
+    command: python3 server.py --port=31001 --dbaddr=$HDBGURU_DB_HOSTNAME:5432
     expose:
       - "31001"
     ports:
@@ -29,6 +27,4 @@ services:
   dataserver:
     build: ./dataserver
     image: chunmeng1991/dataserver
-    command: python updatedb.py --dbaddr=db:5432
-    depends_on:
-      - db
+    command: python updatedb.py --dbaddr=$HDBGURU_DB_HOSTNAME:5432

@@ -7,7 +7,7 @@ publish:
 	docker-compose build && docker-compose push
 
 deploy-local:
-	docker-compose pull && docker-compose up -d && sleep 10 && docker exec -it hdbguru_db_1 bash ./run_migrate.sh up
+	docker-compose pull db searchserver web && docker-compose up -d db searchserver web && sleep 10 && docker exec -it hdbguru_db_1 bash ./run_migrate.sh up
 
 deploy-db:
 	docker-compose -f docker-compose.prod.yml pull db\

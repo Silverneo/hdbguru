@@ -1,0 +1,18 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+\i migrations/01_create_schema.up.sql
+\i migrations/02_create_tables.up.sql
+
+\copy api.TBL_HDB_RESAL_PRICE FROM '/tmp/data/_processed/TBL_HDB_RESALE_PRICE.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_HDB_ADDR_INFO FROM '/tmp/data/_processed/TBL_HDB_ADDR_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_HDB_PROP_INFO FROM '/tmp/data/_processed/TBL_HDB_PROP_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_SCHOOL_INFO FROM '/tmp/data/_processed/TBL_SCHOOL_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_MRT_LRT_ADDR_INFO FROM '/tmp/data/_processed/TBL_MRT_LRT_ADDR_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_SMKT_ADDR_INFO FROM '/tmp/data/_processed/TBL_SMKT_ADDR_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_HAWKER_ADDR_INFO FROM '/tmp/data/_processed/TBL_HAWKER_ADDR_INFO.csv.gzip' delimiter '|' CSV HEADER;
+\copy api.TBL_MALL_ADDR_INFO FROM '/tmp/data/_processed/TBL_MALL_ADDR_INFO.csv.gzip' delimiter '|' CSV HEADER;
+
+\i migrations/04_alter_geom.up.sql
+\i migrations/05_add_hdb_id.up.sql
+\i migrations/06_calc_surrounding_stats.up.sql
+\i migrations/07_fix_name_calc_psf_psm.up.sql

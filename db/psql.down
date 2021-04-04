@@ -1,0 +1,7 @@
+\i migrations/07_fix_name_calc_psf_psm.down.sql
+\i migrations/06_calc_surrounding_stats.down.sql
+\i migrations/05_add_hdb_id.down.sql
+\i migrations/04_alter_geom.down.sql
+\i migrations/03_upload_init_data.down.sql
+\i migrations/02_create_tables.down.sql
+\i migrations/01_create_schema.down.sql
