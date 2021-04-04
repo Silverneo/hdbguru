@@ -29,6 +29,6 @@ services:
   dataserver:
     build: ./dataserver
     image: chunmeng1991/dataserver
-    command: python3 updatedb.py --dbaddr=db:5432
+    command: python updatedb.py --dbaddr=db:5432
     depends_on:
       - db
