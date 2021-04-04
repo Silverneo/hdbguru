@@ -9,4 +9,5 @@ WORKDIR /app
 
 COPY data/migrations /app/migrations
 COPY run_migrate.sh /app/run_migrate.sh
+COPY data/_processed /tmp/data/_processed
 RUN chmod +x run_migrate.sh
