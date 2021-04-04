@@ -23,6 +23,5 @@ services:
     ports:
       - "31001:31001"
   dataserver:
-    build: ./dataserver
     image: chunmeng1991/dataserver
     command: python updatedb.py --dbaddr=$HDBGURU_DB_HOSTNAME:5432
