@@ -1,5 +1,3 @@
-import pathlib 
-from datetime import datetime
 import hashlib
 import argparse
 
@@ -8,7 +6,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 
 def get_latest_data(data_url):
-    
+
     headers = {
       'Cookie': '__cfduid=d6631c09624d16591b25d24f75c538ebc1612666474'
     }
@@ -34,13 +32,20 @@ def clean_n_insert(df, db):
     df['price_psm'] = df['resale_price'] / df['floor_area_sqm']
     df['price_psf'] = df['price_psm'] / 10.764
 
-    df['month'] = df['month'].apply(lambda x: x+"-01")
+    df['month'] = pd.to_datetime(df['month']) + pd.offsets.MonthEnd(0)
 
-    df['storey_range_from'] = df['storey_range'].apply(lambda x: x.split('TO')[0])
-    df['storey_range_to'] = df['storey_range'].apply(lambda x: x.split('TO')[1])
+    df['storey_range_from'] = df['storey_range'].apply(lambda x: x.split('TO')[0]).astype(int)
+    df['storey_range_to'] = df['storey_range'].apply(lambda x: x.split('TO')[1]).astype(int)
+
+    df["flat_type"] = df["flat_type"].replace({"MULTI GENERATION": "MULTI-GENERATION"})
 
     df = df.drop(columns={'storey_range'})
 
+    # Delete same month data if exists
+    with db.connect() as conn:
+        conn.execute(f"DELETE FROM api.tbl_hdb_resale_price WHERE month = '{df['month'][0].strftime('%Y-%m-%d')}'")
+
+    # Insert new data into database
     df.to_sql('tbl_hdb_resale_price', con=db, schema='api', if_exists='append', index=False)
 
 if __name__ == "__main__":
@@ -52,13 +57,11 @@ if __name__ == "__main__":
     db_string = "postgresql://hgadmin:pwd123456@{}/hdbguru".format(args.dbaddr)
     db = create_engine(db_string)
 
-    hdb_resale_url = """https://data.gov.sg/api/action/datastore_search?resource_id=42ff9cfe-abe5-4b54-beda-c88f9bb438ee&limit=100000&filters={"month":"%s-%s"}"""
+    hdb_resale_url = """https://data.gov.sg/api/action/datastore_search?resource_id=42ff9cfe-abe5-4b54-beda-c88f9bb438ee&limit=100000&filters={"month":"%s"}"""
 
-    now = datetime.now()
-    year = now.strftime("%Y")
-    month = now.strftime("%m")
-
-    df = get_latest_data(hdb_resale_url % (year, month))
+    # Get last month data
+    month = (pd.to_datetime('now') - pd.offsets.MonthEnd(1)).strftime("%Y-%m")
+    df = get_latest_data(hdb_resale_url % month)
 
     if len(df) > 0:
         clean_n_insert(df, db)
